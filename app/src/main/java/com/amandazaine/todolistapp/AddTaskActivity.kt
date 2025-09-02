@@ -11,12 +11,9 @@ import com.amandazaine.todolistapp.databinding.ActivityAddTaskBinding
 import com.amandazaine.todolistapp.model.Task
 
 class AddTaskActivity : AppCompatActivity() {
-
     private val binding by lazy {
         ActivityAddTaskBinding.inflate(layoutInflater)
     }
-
-    private val taskDAO = TaskDAO(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +24,8 @@ class AddTaskActivity : AppCompatActivity() {
 
             if (description.isNotEmpty() && description.isNotBlank()) {
                 val task = Task(-1, description.toString(), "default")
+
+                val taskDAO = TaskDAO(this)
 
                 if(taskDAO.save(task)) {
                     Toast.makeText(this, "Success in saving the task!", Toast.LENGTH_SHORT).show()
@@ -39,10 +38,4 @@ class AddTaskActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun save(task: Task) {
-        TODO("Not yet implemented")
-    }
-
-
 }
