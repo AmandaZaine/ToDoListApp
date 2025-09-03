@@ -8,17 +8,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.amandazaine.todolistapp.adapter.TaskItemAdapter
 import com.amandazaine.todolistapp.database.TaskDAO
 import com.amandazaine.todolistapp.databinding.ActivityMainBinding
 import com.amandazaine.todolistapp.model.Task
 
 class MainActivity : AppCompatActivity() {
 
-    private val binding by lazy {
-        ActivityMainBinding.inflate(layoutInflater)
-    }
-
-    private var tasks = emptyList<Task>()
+    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private var allTasks = emptyList<Task>()
+    private var taskItemAdapter: TaskItemAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +30,16 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        //Setting a Toolbar as the ActionBar
+        val toolbar: Toolbar = binding.toolbar
         setSupportActionBar(toolbar)
 
+        //RecyclerView
+        taskItemAdapter = TaskItemAdapter()
+        binding.rvTasks.adapter = taskItemAdapter
+        binding.rvTasks.layoutManager = LinearLayoutManager(this)
+
+        //Button to add task
         binding.fabAddTask.setOnClickListener {
             Log.i("info_db", "Add task button clicked")
 
@@ -44,10 +51,8 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        tasks = TaskDAO(this).getAll()
-
-        tasks.forEach {
-            Log.i("info_db", "Task: $it \n")
-        }
+        //Update the list of tasks
+        allTasks = TaskDAO(this).getAll()
+        taskItemAdapter?.setTasks(allTasks)
     }
 }
