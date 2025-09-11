@@ -7,8 +7,12 @@ import com.amandazaine.todolistapp.model.Task
 class TaskItemViewHolder(taskItemBinding: TaskItemBinding) : RecyclerView.ViewHolder(taskItemBinding.root) {
     private val binding = taskItemBinding
 
-    fun bind(task: Task) {
+    fun bind(task: Task, onClickDelete: (Int) -> Unit) {
         binding.textTask.text = task.description
         binding.textDate.text = task.date
+        binding.imBtDeleteTask.setOnClickListener {
+            onClickDelete(task.id)
+        }
+
     }
 }

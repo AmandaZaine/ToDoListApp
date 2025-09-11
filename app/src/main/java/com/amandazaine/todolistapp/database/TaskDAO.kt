@@ -32,7 +32,18 @@ class TaskDAO(context: Context) : ITaskDAO {
     }
 
     override fun delete(taskId: Int): Boolean {
-        TODO("Not yet implemented")
+        val where = "id = ?"
+        val whereArgs = arrayOf(taskId.toString())
+        try {
+            write.delete(DatabaseHelper.TABLE_TASK, where, whereArgs)
+            Log.i("info_db", "Success deleting task")
+        } catch(e: Exception) {
+            e.printStackTrace()
+            Log.i("info_db", "Failed to delete task")
+            return false
+        }
+
+        return true
     }
 
     override fun getAll(): List<Task> {

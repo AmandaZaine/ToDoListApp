@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amandazaine.todolistapp.databinding.TaskItemBinding
 import com.amandazaine.todolistapp.model.Task
 
-class TaskItemAdapter() : RecyclerView.Adapter<TaskItemViewHolder>() {
+class TaskItemAdapter(
+    val onClickDelete: (Int) -> Unit
+) : RecyclerView.Adapter<TaskItemViewHolder>() {
     private var taskList: List<Task> = emptyList()
 
     fun setTasks(newTaskList: List<Task>) {
@@ -23,7 +25,7 @@ class TaskItemAdapter() : RecyclerView.Adapter<TaskItemViewHolder>() {
 
     override fun onBindViewHolder(holder: TaskItemViewHolder, position: Int) {
         val task = taskList[position]
-        holder.bind(task)
+        holder.bind(task, onClickDelete)
     }
 
     override fun getItemCount(): Int {
