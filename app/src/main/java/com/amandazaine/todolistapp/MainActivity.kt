@@ -37,7 +37,8 @@ class MainActivity : AppCompatActivity() {
 
         //RecyclerView
         taskItemAdapter = TaskItemAdapter(
-            { id -> confirmDeletion(id) }
+            { id -> confirmDeletion(id) },
+            { task -> editTask(task) }
         )
 
         binding.rvTasks.adapter = taskItemAdapter
@@ -83,5 +84,11 @@ class MainActivity : AppCompatActivity() {
     private fun updateListTasks() {
         allTasks = TaskDAO(this).getAll()
         taskItemAdapter?.setTasks(allTasks)
+    }
+
+    private fun editTask(task: Task) {
+        val intent = Intent(this, AddTaskActivity::class.java)
+        intent.putExtra("task", task)
+        startActivity(intent)
     }
 }

@@ -3,8 +3,14 @@ package com.amandazaine.todolistapp.database
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.amandazaine.todolistapp.model.Task
+import java.time.Clock
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import kotlin.text.format
 
 class TaskDAO(context: Context) : ITaskDAO {
 
@@ -28,7 +34,25 @@ class TaskDAO(context: Context) : ITaskDAO {
     }
 
     override fun update(task: Task): Boolean {
-        TODO("Not yet implemented")
+        val contentValues = ContentValues()
+        contentValues.put("description", task.description)
+
+        val where = "id = ?"
+        val whereArgs = arrayOf(task.id.toString())
+
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val currentDate = LocalDate.now().format(formatter) // DD/MM/YYYY
+        contentValues.put("creation_date", currentDate)
+
+        try {
+            write.update(DatabaseHelper.TABLE_TASK, contentValues, where, whereArgs)
+            Log.i("info_db", "Success updating task")
+        } catch(e: Exception) {
+            e.printStackTrace()
+            Log.i("info_db", "Failed to update task")
+            return false
+        }
+        return true
     }
 
     override fun delete(taskId: Int): Boolean {
