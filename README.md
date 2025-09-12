@@ -54,14 +54,10 @@ The **ToDo List App** is a simple and intuitive task management application. It 
    - **SQLite**: Used for local data storage.
    - **SQLiteOpenHelper**: Manages database creation and version management.
 
-### 5. **Testing**
-   - **JUnit**: For unit testing.
-   - **Espresso**: For UI testing.
-
-### 6. **Build System**
+### 5. **Build System**
    - **Gradle (Kotlin DSL)**: Manages dependencies and builds the project.
 
-### 7. **View Binding**
+### 6. **View Binding**
    - Simplifies interaction with UI components.
 
 ---
